@@ -2,6 +2,8 @@
 
 ## Setup
 
+Joe is a nice guy
+
 The first thing to do is: `source setup.sh`. This appends the appropriate pacakages to your `PYTHONPATH`. It also loads a cms environment; you may remove this line if already using a package manager.
 
 ## BDT Training
