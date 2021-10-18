@@ -6,58 +6,61 @@ output_tag:
 
 #.root MC files for all years (sig and bkg) should be kept in this dir:
 mc_file_dir:
-    '/vols/cms/jwd18/HToEESamples/MC/'
+    '/vols/cms/xw10718/october21/2017/MC/'
 
 #.root Data files for all years should be kept in this dir:
 data_file_dir:
-    '/vols/cms/jwd18/HToEESamples/Data/'
+    '/vols/cms/xw10718/october21/2017/Data/'
 
 mc_file_names:
     sig:
         ggH:
-            '2016': 'ggH_UL2017.root' #re-use 2017 in 2016 for now
-            '2017': 'ggH_UL2017.root'
-            '2018': 'ggH_UL2017.root' #re-use 2017 in 2018 for now
+            '2016': 'ggH_M125.root' 
+            '2017': 'ggH_M125.root'
+            '2018': 'ggH_M125.root' 
     bkg:
-        DYMC:
-            '2016': 'DY_UL2016.root'
-            '2017': 'DY_UL2017.root' #re-use 2016 for now
-            '2018': 'DY_UL2018.root'
+        DY:
+            '2016': 'DY.root'
+            '2017': 'DY.root'
+            '2018': 'DY.root'
 
-        TT2L2Nu:
-            '2016': 'TTLNu_UL2016.root'
-            '2017': 'TTLNu_UL2017.root'
-            '2018': 'TTLNu_UL2018.root'
-        TTSemiL:
-            '2016': 'TTSemi_UL2016.root'
-            '2017': 'TTSemi_UL2017.root'
-            '2018': 'TTSemi_UL2017.root'
+        GJet20To40:
+            '2016': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2018': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+        GJet20ToInf:
+            '2016': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            '2018': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+
+
 
 data_file_names:
     Data:
-        '2016': 'Data_UL2016.root'
-        '2017': 'Data_UL2017.root'
-        '2018': 'Data_UL2018.root'
+        '2016': 'Data.root'
+        '2017': 'Data.root'
+        '2018': 'Data.root'
 
 #.root MC files for all years (bkg) should have these tree path:
 proc_to_tree_name:
     ggH: 'Events'
-    DYMC: 'Events'
+    DY: 'Events'
     Data: 'Events'
-    TT2L2Nu: 'Events'
-    TTSemiL: 'Events'
+    GJet20To40: 'Events'
+    GJet20ToInf: 'Events'
 
 #X variables to train with. Must be in nominal_vars (unless created from existing features)
 train_vars:
 #matching ggh_dnn vars
-    ['dielectronPt','dielectronCosPhi',      
-     'leadElectronPtOvM', 'subleadElectronPtOvM',
-     'leadElectronEta', 'subleadElectronEta',
-     'dijetAbsDEta', 'dijetDPhi','dijetMinDRJetEle', 'dijetMass', 
-     'dijetDieleAbsDPhiTrunc', 'dijetDieleAbsDEta', 'dijetCentrality',
-     'leadJetDieleDPhi', 'subleadJetDieleDPhi', 'leadJetDieleDEta', 'subleadJetDieleDEta',
-     'leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL', 
-     'subleadJetEn', 'subleadJetPt', 'subleadJetEta', 'subleadJetPhi','subleadJetQGL',
+    ['diphotonMass',
+     #'dielectronPt','dielectronCosPhi',      
+     #'leadElectronPtOvM', 'subleadElectronPtOvM',
+     #'leadElectronEta', 'subleadElectronEta',
+     #'dijetAbsDEta', 'dijetDPhi','dijetMinDRJetEle', 'dijetMass', 
+     #'dijetDieleAbsDPhiTrunc', 'dijetDieleAbsDEta', 'dijetCentrality',
+     #'leadJetDieleDPhi', 'subleadJetDieleDPhi', 'leadJetDieleDEta', 'subleadJetDieleDEta',
+     #'leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL', 
+     #'subleadJetEn', 'subleadJetPt', 'subleadJetEta', 'subleadJetPhi','subleadJetQGL',
      #'leadJetPUJID','subleadJetPUJID', 'subsubleadJetPUJID','leadJetID','subleadJetID','subsubleadJetID'
      #'metSumET', 'metPt', 'metPhi', 'leadJetBTagScore', 'subleadJetBTagScore', 'subsubleadJetBTagScore'
     ]
@@ -67,8 +70,11 @@ vars_to_add:
 #preselection that will be applied to all samples
 preselection:
     #'dielectronMass > 110 and dielectronMass < 150 and leadElectronPtOvM > 0.333 and subleadElectronPtOvM > 0.25 and (leadElectronCharge == -subleadElectronCharge)'
-    'dielectronMass > 110 and dielectronMass < 150 and leadElectronPtOvM > 0.333 and subleadElectronPtOvM > 0.25 and (leadElectronCharge == -subleadElectronCharge)' 
+    #'dielectronMass > 110 and dielectronMass < 150 and leadElectronPtOvM > 0.333 and subleadElectronPtOvM > 0.25 and (leadElectronCharge == -subleadElectronCharge)'
+    'diphotonMass > 110' 
 
 #need looser cut for re-weighting around Z mass. Actual CR selection is defined is DataHandling.py
 reweight_cr:
-    'dielectronMass > 80 and dielectronMass < 150 and leadElectronPtOvM > 0.333 and subleadElectronPtOvM > 0.25 and (leadElectronCharge == -subleadElectronCharge)' 
+    #'dielectronMass > 80 and dielectronMass < 150 and leadElectronPtOvM > 0.333 and subleadElectronPtOvM > 0.25 and (leadElectronCharge == -subleadElectronCharge)' 
+    
+    'diphotonMass > 80'
