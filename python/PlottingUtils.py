@@ -28,14 +28,15 @@ class Plotter(object):
         self.sig_labels   = np.unique(self.sig_df['proc'].values).tolist()
         self.bkg_labels   = np.unique(self.bkg_df['proc'].values).tolist()
 
-        self.bkg_labels   = ['EWKZ', 'DYMC', 'TT2L2Nu', 'TTSemiL'] #FIXME: temp re-ordering of procs for VBF
-        self.bkg_colours  = ['#2c7bb6', '#abd9e9', '#ffffbf', '#fdae61'] #temo better for VBF
+        #self.bkg_labels   = ['EWKZ', 'DYMC', 'TT2L2Nu', 'TTSemiL'] #FIXME: temp re-ordering of procs for VBF
+        self.bkg_colours  = ['#2c7bb6', '#abd9e9', '#ffffbf', '#fdae61', '#66ccff', '#ff0000', '#ffa500', '#008000', '#ff00ff'] #temo better for VBF
         #self.bkg_colours  = ['#91bfdb', '#ffffbf', '#fc8d59'] #better for ggH
 
         self.sig_colour   = sig_col
         self.normalise    = normalise
 
-        self.sig_scaler   = 5*10**7
+        #self.sig_scaler   = 5*10**7
+        self.sig_scaler   = 100
 
         #get xrange from yaml config
         with open('plotting/var_to_xrange.yaml', 'r') as plot_config_file:

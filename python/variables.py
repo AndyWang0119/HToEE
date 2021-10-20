@@ -1,6 +1,6 @@
 #electron vars
 nominal_vars = ['diphotonMass', 'leadPhotonElectronVeto', 'subleadPhotonElectronVeto',
-                'weight',
+ 		'weight',               
 
                 'diphotonPt','diphotonCosPhi',      
                 'leadPhotonPtOvM', 'subleadPhotonPtOvM',

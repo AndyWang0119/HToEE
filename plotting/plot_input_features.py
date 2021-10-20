@@ -50,10 +50,11 @@ def main(options):
 
                                             #Plotter stuff#
  
-        #set up X, w and y, train-test 
+        #set up X, w and y, train-test
         plotter = Plotter(root_obj, train_vars, sig_col=sig_colour, norm_to_data=True)
+        Plotter
         #for var in train_vars+['dielectronMass','dielectronPt']:
-        for var in ['dielectronMass']:
+        for var in ['diphotonCosPhi']:
             plotter.plot_input(var, options.n_bins, output_tag, options.ratio_plot, norm_to_data=True)
 
 if __name__ == "__main__":

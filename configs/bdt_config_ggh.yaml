@@ -15,31 +15,53 @@ data_file_dir:
 mc_file_names:
     sig:
         ggH:
-            '2016': 'ggH_M125.root' 
+         #   '2016': 'ggH_M125.root' 
             '2017': 'ggH_M125.root'
-            '2018': 'ggH_M125.root' 
+         #   '2018': 'ggH_M125.root' 
     bkg:
         DY:
-            '2016': 'DY.root'
+          #  '2016': 'DY.root'
             '2017': 'DY.root'
-            '2018': 'DY.root'
-
+          #  '2018': 'DY.root'
+        Diphoton40To80:
+           # '2016': 'DiPhotonJetsBox_M40_80-sherpa.root'
+            '2017': 'DiPhotonJetsBox_M40_80-sherpa.root'
+           # '2018': 'DiPhotonJetsBox_M40_80-sherpa.root'
+        Diphoton80ToInf:
+           # '2016': 'DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa.root'
+            '2017': 'DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa.root'
+           # '2018': 'DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa.root'
         GJet20To40:
-            '2016': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+           # '2016': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
             '2017': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
-            '2018': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+           # '2018': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
         GJet20ToInf:
-            '2016': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+           # '2016': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
             '2017': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
-            '2018': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
-
+           # '2018': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+        GJet40ToInf:
+            #'2016': 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+        QCD_Pt-30to40:
+            #'2016': 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+        QCD_Pt-30toInf:
+            #'2016': 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+        QCD_Pt-40toInf:
+            #'2016': 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
 
 
 data_file_names:
     Data:
-        '2016': 'Data.root'
+        #'2016': 'Data.root'
         '2017': 'Data.root'
-        '2018': 'Data.root'
+        #'2018': 'Data.root'
 
 #.root MC files for all years (bkg) should have these tree path:
 proc_to_tree_name:
@@ -48,6 +70,12 @@ proc_to_tree_name:
     Data: 'Events'
     GJet20To40: 'Events'
     GJet20ToInf: 'Events'
+    GJet40ToInf: 'Events'
+    Diphoton40To80: 'Events'
+    Diphoton80ToInf: 'Events'
+    QCD_Pt-30to40: 'Events'
+    QCD_Pt-30toInf: 'Events'
+    QCD_Pt-40toInf: 'Events'
 
 #X variables to train with. Must be in nominal_vars (unless created from existing features)
 train_vars:
