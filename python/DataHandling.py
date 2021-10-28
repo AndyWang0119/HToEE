@@ -78,11 +78,11 @@ class ROOTHelpers(object):
         self.years              = set()
         self.lumi_map           = {'2016':35.9, '2017':41.5, '2018':59.7}
         self.lumi_scale         = True
-        self.XS_map             = {'ttH':0.5071*0.002, 'ggH':48.58*0.002, 'VBF':3.782*0.002, 'DY':6.575E3, 'GJet20To40':2.320E2, 'GJet20ToInf':3.147E3, 'GJet40ToInf':8.633E2, 'Diphoton40To80':3.119E2, 'Diphoton80ToInf':8.764E1, 'QCD_Pt-30to40':24810.0, 'QCD_Pt-30toInf':118100.0, 'QCD_Pt-40toInf': 241400.0} #all in pb. also have BR for signals
+        self.XS_map             = {'ttH':0.5071*0.002, 'ggH':48.58*0.002, 'VBF':3.782*0.002,  'VH':2.2569*0.002, 'DY':6.575E3, 'GJet20To40':2.320E2, 'GJet20ToInf':3.147E3, 'GJet40ToInf':8.633E2, 'Diphoton40To80':3.119E2, 'Diphoton80ToInf':8.764E1, 'QCD_Pt-30to40':24810.0, 'QCD_Pt-30toInf':118100.0, 'QCD_Pt-40toInf': 241400.0} #all in pb. also have BR for signals
  
 
         self.eff_acc            = {'2016':{'ggH':0.5259538, 'VBF':0.5339179, 'ttH':0.5821746, 'DY':0.0468661, 'GJet20To40':0.0188552, 'GJet20ToInf': 0.0004272, 'GJet40ToInf': 0.0425448, 'Diphoton40To80':0.0009297, 'Diphoton80ToInf':0.1732172, 'QCD_Pt-30to40':0.0003714, 'QCD_Pt-30toInf':0.0000336, 'QCD_Pt-40toInf': 0.0007673}, #Pass16
-                                   '2017':{'ggH':0.5259538, 'VBF':0.5339179, 'ttH':0.5821746, 'DY':0.0468661, 'GJet20To40':0.0188552, 'GJet20ToInf': 0.0004272, 'GJet40ToInf': 0.0425448, 'Diphoton40To80':0.0009297, 'Diphoton80ToInf':0.1732172, 'QCD_Pt-30to40':0.0003714, 'QCD_Pt-30toInf':0.0000336, 'QCD_Pt-40toInf': 0.0007673},
+                                   '2017':{'ggH':0.5259538, 'VBF':0.5339179, 'ttH':0.5821746, 'VH':0.4789266, 'DY':0.0468661, 'GJet20To40':0.0188552, 'GJet20ToInf': 0.0004272, 'GJet40ToInf': 0.0425448, 'Diphoton40To80':0.0009297, 'Diphoton80ToInf':0.1732172, 'QCD_Pt-30to40':0.0003714, 'QCD_Pt-30toInf':0.0000336, 'QCD_Pt-40toInf': 0.0007673},
                                    '2018':{'ggH':0.5259538, 'VBF':0.5339179, 'ttH':0.5821746, 'DY':0.0468661, 'GJet20To40':0.0188552, 'GJet20ToInf': 0.0004272, 'GJet40ToInf': 0.0425448, 'Diphoton40To80':0.0009297, 'Diphoton80ToInf':0.1732172, 'QCD_Pt-30to40':0.0003714, 'QCD_Pt-30toInf':0.0000336, 'QCD_Pt-40toInf': 0.0007673}
                                   }   
 

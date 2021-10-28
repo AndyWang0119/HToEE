@@ -52,7 +52,6 @@ def main(options):
  
         #set up X, w and y, train-test
         plotter = Plotter(root_obj, train_vars, sig_col=sig_colour, norm_to_data=True)
-        #for var in train_vars+['diphotonMass']:
         default_training_variables =  ['diphotonPt','diphotonCosPhi',      
      'leadPhotonPtOvM', 'subleadPhotonPtOvM',
      'leadPhotonEta', 'subleadPhotonEta',

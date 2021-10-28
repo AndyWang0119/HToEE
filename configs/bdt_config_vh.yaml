@@ -1,0 +1,99 @@
+# custom tag that will be added to all saved df's and models. 
+output_tag:
+    'VH_BDT'
+
+#.root MC files for all years (sig and bkg) should be kept in this dir:
+mc_file_dir:
+    '/vols/cms/xw10718/october21/2017/MC/'
+
+#.root Data files for all years should be kept in this dir:
+data_file_dir:
+    '/vols/cms/xw10718/october21/2017/Data/'
+
+mc_file_names:
+    sig:
+        VH:
+            #'2016': 'VH_M125.root' #re-use 17 as 16 for now
+            '2017': 'VH_M125.root'
+            #'2018': 'VH_M125.root' #re-use 17 as 18 for now
+    bkg:
+        DY:
+          #  '2016': 'DY.root'
+            '2017': 'DY.root'
+          #  '2018': 'DY.root'
+        Diphoton40To80:
+           # '2016': 'DiPhotonJetsBox_M40_80-sherpa.root'
+            '2017': 'DiPhotonJetsBox_M40_80-sherpa.root'
+           # '2018': 'DiPhotonJetsBox_M40_80-sherpa.root'
+        Diphoton80ToInf:
+           # '2016': 'DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa.root'
+            '2017': 'DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa.root'
+           # '2018': 'DiPhotonJetsBox_MGG-80toInf_13TeV-sherpa.root'
+        GJet20To40:
+           # '2016': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+           # '2018': 'GJet_Pt-20to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+        GJet20ToInf:
+           # '2016': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+           # '2018': 'GJet_Pt-20toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+        GJet40ToInf:
+            #'2016': 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'GJet_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+        QCD_Pt-30to40:
+            #'2016': 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'QCD_Pt-30to40_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+        QCD_Pt-30toInf:
+            #'2016': 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'QCD_Pt-30toInf_DoubleEMEnriched_MGG-40to80_TuneCP5_13TeV_Pythia8.root'
+        QCD_Pt-40toInf:
+            #'2016': 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            '2017': 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+            #'2018': 'QCD_Pt-40toInf_DoubleEMEnriched_MGG-80toInf_TuneCP5_13TeV_Pythia8.root'
+
+data_file_names:
+    Data:
+        #'2016': 'Data_UL2016.root'
+        '2017': 'Data.root'
+        #'2018': 'Data_UL2018.root'
+
+
+#.root files for all years should have these tree paths. Keys should match keys above
+proc_to_tree_name:
+    VH: 'Events'
+    DY: 'Events'
+    Data: 'Events'
+    GJet20To40: 'Events'
+    GJet20ToInf: 'Events'
+    GJet40ToInf: 'Events'
+    Diphoton40To80: 'Events'
+    Diphoton80ToInf: 'Events'
+    QCD_Pt-30to40: 'Events'
+    QCD_Pt-30toInf: 'Events'
+    QCD_Pt-40toInf: 'Events'
+
+#X variables to train with. Must be in nominal_vars (unless created from existing features)
+train_vars:
+    ['diphotonPt','diphotonCosPhi'      
+     #'leadPhotonPtOvM', 'subleadPhotonPtOvM',
+     #'leadPhotonEta', 'subleadPhotonEta',
+     #'dijetAbsDEta', 'dijetDPhi','dijetMinDRJetPho', 'dijetMass', 
+     #'dijetDiphoAbsDPhiTrunc', 'dijetDiphoAbsDEta', 'dijetCentrality',
+     #'leadJetDiphoDPhi', 'subleadJetDiphoDPhi', 'leadJetDiphoDEta', 'subleadJetDiphoDEta',
+     #'leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL', 
+     #'subleadJetEn', 'subleadJetPt', 'subleadJetEta', 'subleadJetPhi','subleadJetQGL',
+     #'leadPhotonIDMVA', 'subleadPhotonIDMVA',
+    ]
+
+vars_to_add:
+    #'subsubleadJetCentrality':
+
+#preselection that will be applied to all samples
+preselection:
+    'diphotonMass > 100 and diphotonMass < 180 and leadPhotonPtOvM > 0.47 and subleadPhotonPtOvM > 0.28 and leadPhotonElectronVeto==1 and subleadPhotonElectronVeto==1'
+
+reweight_cr: #looser selection (CR region is taken from this, but not exactly the same as this)
+    #'dielectronMass > 80 and dielectronMass < 150 and leadElectronPtOvM > 0.333 and subleadElectronPtOvM > 0.25 and dijetMass>250 and leadJetPt>40 and subleadJetPt>25 and (leadElectronCharge == -subleadElectronCharge)'
