@@ -1,8 +1,8 @@
 #electron vars
 nominal_vars = ['diphotonMass', 'leadPhotonElectronVeto', 'subleadPhotonElectronVeto',
- 		'weight',               
+ 		        'weight', 'leadPhotonIDMVA', 'subleadPhotonIDMVA', 'subsubleadPhotonIDMVA',
 
-                'diphotonPt','diphotonCosPhi',      
+                'diphotonPt','diphotonCosPhi',
                 'leadPhotonPtOvM', 'subleadPhotonPtOvM',
                 'leadPhotonEta', 'subleadPhotonEta',
                 'dijetAbsDEta', 'dijetDPhi','dijetMinDRJetPho', 'dijetMass', 

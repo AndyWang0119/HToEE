@@ -29,8 +29,8 @@ class Plotter(object):
         self.bkg_labels   = np.unique(self.bkg_df['proc'].values).tolist()
 
         #self.bkg_labels   = ['EWKZ', 'DYMC', 'TT2L2Nu', 'TTSemiL'] #FIXME: temp re-ordering of procs for VBF
-        self.bkg_colours  = ['#2c7bb6', '#abd9e9', '#ffffbf', '#fdae61', '#66ccff', '#ff0000', '#ffa500', '#008000', '#ff00ff'] #temo better for VBF
-        #self.bkg_colours  = ['#91bfdb', '#ffffbf', '#fc8d59'] #better for ggH
+        #self.bkg_colours  = ['#2c7bb6', '#abd9e9', '#66ccff', '#F6DDCC', '#EB984E', '#D35400', '#ABEBC6', '#52BE80', '#186A3B']
+        self.bkg_colours  = ['#91bfdb', '#ffffbf', '#fc8d59','#66ccff'] #better for ggH
 
         self.sig_colour   = sig_col
         self.normalise    = normalise
@@ -102,7 +102,8 @@ class Plotter(object):
 
             bkg_stack.append(var_bkg)
             bkg_w_stack.append(bkg_weights)
-            bkg_proc_stack.append(bkg)
+            #bkg_proc_stack.append(bkg)
+            bkg_proc_stack.append(bkg.replace('_', ' ')) #to the string Latex friendly
 
         if self.normalise:
             sig_weights /= np.sum(sig_weights)
@@ -111,8 +112,7 @@ class Plotter(object):
         bins = np.linspace(self.var_to_xrange[var][0], self.var_to_xrange[var][1], n_bins)
 
         #add sig mc
-        #FIXME add this back in!
-        #axes.hist(var_sig, bins=bins, label=self.sig_labels[0]+r' ($\mathrm{H}\rightarrow\mathrm{ee}$) '+self.num_to_str(self.sig_scaler), weights=sig_weights*(self.sig_scaler), histtype='step', color=self.sig_colour, zorder=10)
+        axes.hist(var_sig, bins=bins, label=self.sig_labels[0]+r' ($\mathrm{H}\rightarrow\mathrm{ee}$) '+self.num_to_str(self.sig_scaler), weights=sig_weights*(self.sig_scaler), histtype='step', color=self.sig_colour, zorder=10)
 
         #data
         if extra_cuts is not None:  data_binned, bin_edges = np.histogram(self.data_df.query(extra_cuts)[var].values, bins=bins)
@@ -130,8 +130,9 @@ class Plotter(object):
             blinded_data_binned = np.asarray(data_binned) * (blinded_mask)
             blinded_data_down   = np.asarray(data_down) * (blinded_mask)
             blinded_data_up     = np.asarray(data_up) * (blinded_mask)
-            axes.errorbar( bin_centres, blinded_data_binned, yerr=[blinded_data_binned-blinded_data_down, blinded_data_up-blinded_data_binned], label='Data', fmt='o', ms=3, color='black', capsize=0, zorder=1)
-        else: axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=3, color='black', capsize=0, zorder=1)
+            #FIXME: This is where data plotted
+           # axes.errorbar( bin_centres, blinded_data_binned, yerr=[blinded_data_binned-blinded_data_down, blinded_data_up-blinded_data_binned], label='Data', fmt='o', ms=3, color='black', capsize=0, zorder=1)
+       # else: axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=3, color='black', capsize=0, zorder=1)
 
         #add stacked bkg
         if norm_to_data: 
@@ -140,8 +141,8 @@ class Plotter(object):
             k_factor = np.sum(data_binned) / np.sum(bkg_stack_summed) #important to do this after binning, since norm may be different than before (if var has -999's)
             for w_arr in bkg_w_stack:
                 rew_stack.append(w_arr*k_factor)
-            axes.hist(bkg_stack, bins=bins, label=bkg_proc_stack, weights=rew_stack, histtype='stepfilled', color=self.bkg_colours[0:len(bkg_proc_stack)], stacked=True, zorder=0)
-
+            #axes.hist(bkg_stack, bins=bins, label=bkg_proc_stack, weights=rew_stack, histtype='stepfilled', color=self.bkg_colours[0:len(bkg_proc_stack)], stacked=True, zorder=0)
+            #FIXME: this is where background plotted, Don't plot background for now
             
             bkg_stack_summed *= k_factor
             sumw2_bkg, _  = np.histogram(np.concatenate(bkg_stack), bins=bins, weights=np.concatenate(rew_stack)**2)
@@ -155,7 +156,8 @@ class Plotter(object):
 
         #plot mc error 
         bkg_std_down, bkg_std_up  = self.poisson_interval(bkg_stack_summed, sumw2_bkg)                                                   
-        axes.fill_between(bins, list(bkg_std_down)+[bkg_std_down[-1]], list(bkg_std_up)+[bkg_std_up[-1]], alpha=0.3, step="post", color="grey", lw=1, zorder=4, label='Simulation stat. unc.')
+        #FIXME: This is where the grey simulation error bar plotted, diabled for now
+        #axes.fill_between(bins, list(bkg_std_down)+[bkg_std_down[-1]], list(bkg_std_up)+[bkg_std_up[-1]], alpha=0.3, step="post", color="grey", lw=1, zorder=4, label='Simulation stat. unc.')
 
         #change axes limits
         current_bottom, current_top = axes.get_ylim()
@@ -164,7 +166,8 @@ class Plotter(object):
             axes.set_ylim(bottom=100, top=current_top*20)
         else: axes.set_ylim(bottom=0, top=current_top*1.35)
 
-        axes.legend(bbox_to_anchor=(0.9,0.97), ncol=2, prop={'size':10})
+        #axes.legend(bbox_to_anchor=(0.9,0.97), ncol=2, prop={'size':10})
+        axes.legend(ncol=2, prop={'size':9})
         self.plot_cms_labels(axes)
            
         var_name_safe = var.replace('_',' ')

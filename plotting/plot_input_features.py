@@ -52,9 +52,18 @@ def main(options):
  
         #set up X, w and y, train-test
         plotter = Plotter(root_obj, train_vars, sig_col=sig_colour, norm_to_data=True)
-        Plotter
-        #for var in train_vars+['dielectronMass','dielectronPt']:
-        for var in ['diphotonCosPhi']:
+        #for var in train_vars+['diphotonMass']:
+        default_training_variables =  ['diphotonPt','diphotonCosPhi',      
+     'leadPhotonPtOvM', 'subleadPhotonPtOvM',
+     'leadPhotonEta', 'subleadPhotonEta',
+     'dijetAbsDEta', 'dijetDPhi','dijetMinDRJetPho', 'dijetMass', 
+     'dijetDiphoAbsDPhiTrunc', 'dijetDiphoAbsDEta', 'dijetCentrality',
+     'leadJetDiphoDPhi', 'subleadJetDiphoDPhi', 'leadJetDiphoDEta', 'subleadJetDiphoDEta',
+     'leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL', 
+     'subleadJetEn', 'subleadJetPt', 'subleadJetEta', 'subleadJetPhi','subleadJetQGL',
+        ]
+        for var in ['leadPhotonEta']:
+            #plotter.plot_input(var, options.n_bins, output_tag, options.ratio_plot, norm_to_data=True, extra_cuts='minIDMVA > 0.5')
             plotter.plot_input(var, options.n_bins, output_tag, options.ratio_plot, norm_to_data=True)
 
 if __name__ == "__main__":

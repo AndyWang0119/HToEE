@@ -321,6 +321,17 @@ class ROOTHelpers(object):
         print('Number of events in final dataframe: {}'.format(np.sum(df['weight'].values)))
         #save everything
         Utils.check_dir(file_dir+'DataFrames/') 
+
+        #merger -Andy
+        processes = ['Diphoton', 'QCD', 'GJet']
+        for proc in processes:
+            if df['proc'][0].find(proc) != -1:
+                df = df.replace(df['proc'][0], proc)
+        
+        #feature engineering -Andy
+        if 'leadPhotonIDMVA' in df.columns:
+            df['minIDMVA'] = df[['leadPhotonIDMVA','subleadPhotonIDMVA']].min(axis=1)
+
         df.to_csv('{}/{}_{}_df_{}.csv'.format(file_dir+'DataFrames', proc_tag, self.out_tag, year))
         print('Saved dataframe: {}/{}_{}_df_{}.csv'.format(file_dir+'DataFrames', proc_tag, self.out_tag, year))
         #df.to_pickle('{}/{}_{}_df_{}.pkl'.format(file_dir+'DataFrames', proc_tag, self.out_tag, year))
