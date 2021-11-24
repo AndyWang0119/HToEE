@@ -331,6 +331,7 @@ class ROOTHelpers(object):
         #feature engineering -Andy
         if 'leadPhotonIDMVA' in df.columns:
             df['minIDMVA'] = df[['leadPhotonIDMVA','subleadPhotonIDMVA']].min(axis=1)
+        #df['diphotonDR'] = np.sqrt((df['leadPhotonPhi'] - df['subleadPhotonPhi'])**2 + (np.arcos(df['diphotonCosPhi']))**2)
 
         df.to_csv('{}/{}_{}_df_{}.csv'.format(file_dir+'DataFrames', proc_tag, self.out_tag, year))
         print('Saved dataframe: {}/{}_{}_df_{}.csv'.format(file_dir+'DataFrames', proc_tag, self.out_tag, year))

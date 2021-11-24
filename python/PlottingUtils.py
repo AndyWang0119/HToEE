@@ -264,7 +264,8 @@ class Plotter(object):
         bin_centres = (bin_edges[:-1] + bin_edges[1:])/2
         x_err    = (bin_edges[-1] - bin_edges[-2])/2
         data_down, data_up = self.poisson_interval(data_binned, data_binned)
-        axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=4, color='black', capsize=0, zorder=1)
+        #FIXME: dont' plot the data for now
+        #axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=4, color='black', capsize=0, zorder=1)
 
         if norm_to_data: 
             rew_stack = []

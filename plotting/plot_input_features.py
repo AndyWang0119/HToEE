@@ -61,7 +61,7 @@ def main(options):
      'leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL', 
      'subleadJetEn', 'subleadJetPt', 'subleadJetEta', 'subleadJetPhi','subleadJetQGL',
         ]
-        for var in ['leadPhotonEta']:
+        for var in ['leadPhotonPhi']:
             #plotter.plot_input(var, options.n_bins, output_tag, options.ratio_plot, norm_to_data=True, extra_cuts='minIDMVA > 0.5')
             plotter.plot_input(var, options.n_bins, output_tag, options.ratio_plot, norm_to_data=True)
 
