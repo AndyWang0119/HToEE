@@ -258,6 +258,9 @@ class Plotter(object):
 
         #sig
         axes.hist(sig_scores, bins=bins, label=self.sig_labels[0]+r' ($\mathrm{H}\rightarrow\mathrm{ee}$) '+self.num_to_str(self.sig_scaler), weights=sig_w_true*(self.sig_scaler), histtype='step', color=self.sig_colour)
+        import pandas as pd
+        pd.DataFrame(y_pred_test).to_csv('plotting/plots/ggH_BDT/sig_scores.csv', index=False)
+        pd.DataFrame(y_test).to_csv('plotting/plots/ggH_BDT/y_test.csv', index=False)
 
         #data - need to take test frac of data
         data_binned, bin_edges = np.histogram(data_pred_test, bins=bins)
@@ -265,7 +268,7 @@ class Plotter(object):
         x_err    = (bin_edges[-1] - bin_edges[-2])/2
         data_down, data_up = self.poisson_interval(data_binned, data_binned)
         #FIXME: dont' plot the data for now
-        #axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=4, color='black', capsize=0, zorder=1)
+        axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=4, color='black', capsize=0, zorder=1)
 
         if norm_to_data: 
             rew_stack = []

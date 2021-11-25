@@ -111,11 +111,9 @@ if roc:
     
 
 #plot the 2D correlation, both scatter plots and 2d hist in subplots
-scatter_plot=0
-corr_var_pair = [['leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL'],
-['diphotonPt','diphotonCosPhi','leadPhotonPtOvM', 'subleadPhotonPtOvM'],
-['dijetAbsDEta', 'dijetDPhi','dijetMinDRJetPho', 'dijetMass','dijetDiphoAbsDPhiTrunc', 'dijetDiphoAbsDEta', 'dijetCentrality',],
-['diphotonDR','diphotonPt']]
+scatter_plot=1
+corr_var_pair = [['diphotonPt','diphotonCosPhi','leadPhotonPtOvM', 'subleadPhotonPtOvM'],
+['diphotonDR','diphotonPt'], ['diphotonDR','diphotonCosPhi'],['leadJetPt','diphotonPt'],['leadJetPt','leadPhotonPtOvM']]
 #corr_variables =  ['diphotonPt','diphotonCosPhi','leadPhotonPtOvM', 'subleadPhotonPtOvM']
 #corr_variables = ['dijetAbsDEta', 'dijetDPhi','dijetMinDRJetPho', 'dijetMass','dijetDiphoAbsDPhiTrunc', 'dijetDiphoAbsDEta', 'dijetCentrality',]
 #corr_variables = ['leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL']
@@ -159,7 +157,7 @@ if scatter_plot:
               ax2[index%2,index//2].set_title(sig)
 
           #fig.savefig('plotting/plots/scatter_plot/%s_against_%s.png' %(var1,var2))
-          fig2.savefig('plotting/plots/2dhist/%s_against_%s.png' %(var1,var2))
+          fig2.savefig('plotting/plots/2dhist/new/%s_against_%s.png' %(var1,var2))
           plt.close()
 
 # Compute the correlation matrix of all training features

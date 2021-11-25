@@ -14,6 +14,7 @@ import pickle
 from DataHandling import ROOTHelpers
 from PlottingUtils import Plotter
 from Utils import Utils
+#from roc import my_roc_auc
 
 class BDTHelpers(object):
     """
@@ -86,7 +87,7 @@ class BDTHelpers(object):
         mass_res_reweight: bool
            re-weight signal events by 1/sigma(m_ee), in training only.
         """
-        
+        mass_res_reweight=False #FIXME: disabled mass_res_reweight on defaut, since it's for electron
         mc_df_sig = self.data_obj.mc_df_sig
         mc_df_bkg = self.data_obj.mc_df_bkg
 
@@ -99,7 +100,7 @@ class BDTHelpers(object):
         if self.eq_train: 
             if mass_res_reweight:
                 #be careful not to change the real weight variable, or test scores will be invalid
-                mc_df_sig['MoM_weight'] = (mc_df_sig['weight']) * (1./mc_df_sig['dielectronSigmaMoM'])
+                mc_df_sig['MoM_weight'] = (mc_df_sig['weight']) * (1./mc_df_sig['diphotonSigmaMoM'])
                 b_to_s_ratio = np.sum(mc_df_bkg['weight'].values)/np.sum(mc_df_sig['MoM_weight'].values)
                 mc_df_sig['eq_weight'] = (mc_df_sig['MoM_weight']) * (b_to_s_ratio)
             else: 
@@ -119,7 +120,7 @@ class BDTHelpers(object):
             #    because for overtraining we need to evaluate on the train set (and hence need nominal MC train weights)
             self.train_weights_eq = train_w_eqw.values
         elif mass_res_reweight:
-           mc_df_sig['MoM_weight'] = (mc_df_sig['weight']) * (1./mc_df_sig['dielectronSigmaMoM'])
+           mc_df_sig['MoM_weight'] = (mc_df_sig['weight']) * (1./mc_df_sig['diphotonSigmaMoM'])
            Z_tot = pd.concat([mc_df_sig, mc_df_bkg], ignore_index=True)
            X_train, X_test, train_w, test_w, train_w_eqw, test_w_eqw, y_train, y_test, proc_arr_train, proc_arr_test = train_test_split(Z_tot[self.train_vars], Z_tot['weight'], 
                                                                                                                                         Z_tot['MoM_weight'], Z_tot['y'], Z_tot['proc'],
@@ -167,6 +168,9 @@ class BDTHelpers(object):
 
         mc_df_sig = self.data_obj.mc_df_sig
         mc_df_bkg = self.data_obj.mc_df_bkg
+
+        mc_df_sig.sample(frac=1)
+        mc_df_bkg.sample(frac=1)
 
         #add y_target label
 
@@ -260,6 +264,8 @@ class BDTHelpers(object):
         else: train_weights = self.train_weights
 
         print ('Training classifier... ')
+        #print(np.isnan(self.X_train).any(), np.isnan(self.y_train).any(), np.isnan(train_weights).any())
+        #print(train_weights)
         clf = self.clf.fit(self.X_train, self.y_train, sample_weight=train_weights)
         print ('Finished Training classifier!')
         self.clf = clf
@@ -409,12 +415,16 @@ class BDTHelpers(object):
         roc_auc_score: float
             area under the roc curve evluated on test set
         """
-
+        #use the absolute weight for all the following roc curve -Andy
+        #self.train_weights = np.absolute(self.train_weights)
+        #self.test_weights = np.absolute(self.test_weights)
+        
         self.y_pred_train = self.clf.predict_proba(self.X_train)[:,1:]
-        print ('Area under ROC curve for train set is: {:.4f}'.format(roc_auc_score(self.y_train, self.y_pred_train, sample_weight=self.train_weights)))
+        #print(type(self.y_pred_train), self.y_pred_train)
+        #print ('Area under ROC curve for train set is: {:.4f}'.format(roc_auc_score(self.y_train, self.y_pred_train, sample_weight=self.train_weights)))
 
         self.y_pred_test = self.clf.predict_proba(self.X_test)[:,1:]
-        print ('Area under ROC curve for test set is: {:.4f}'.format(roc_auc_score(self.y_test, self.y_pred_test, sample_weight=self.test_weights)))
+        #print ('Area under ROC curve for test set is: {:.4f}'.format(roc_auc_score(self.y_test, self.y_pred_test, sample_weight=self.test_weights)))
 
         #get auc for bkg->data
         sig_y_pred_test  = self.y_pred_test[self.y_test==1]
@@ -423,13 +433,13 @@ class BDTHelpers(object):
         data_weights_test = np.ones(self.X_data_test.values.shape[0])
         data_y_true_test  = np.zeros(self.X_data_test.values.shape[0])
         data_y_pred_test  = self.clf.predict_proba(self.X_data_test.values)[:,1:]
-        print ('Area under ROC curve with data as bkg is: {:.4f}'.format(roc_auc_score( np.concatenate((sig_y_true_test, data_y_true_test), axis=None),
-                                                                                       np.concatenate((sig_y_pred_test, data_y_pred_test), axis=None),
-                                                                                       sample_weight=np.concatenate((sig_weights_test, data_weights_test), axis=None) 
-                                                                                     )
-                                                                        ))
+        #print ('Area under ROC curve with data as bkg is: {:.4f}'.format(roc_auc_score( np.concatenate((sig_y_true_test, data_y_true_test), axis=None),
+        #                                                                               np.concatenate((sig_y_pred_test, data_y_pred_test), axis=None),
+        #                                                                               sample_weight=np.concatenate((sig_weights_test, data_weights_test), axis=None) 
+        #                                                                             )
+        #                                                                ))
 
-        return roc_auc_score(self.y_test, self.y_pred_test, sample_weight=self.test_weights)
+        #return (self.y_test, self.y_pred_test, sample_weight=self.test_weights)
 
     def compute_roc_three_class(self, third_class):
         """
@@ -532,4 +542,8 @@ class BDTHelpers(object):
             output_score_fig.savefig('{0}/plotting/plots/{1}/{1}_output_score_clf_class_{2}.pdf'.format(os.getcwd(), out_tag, clf_class))
             print('saving: {0}/plotting/plots/{1}/{1}_output_score_clf_class_{2}.pdf'.format(os.getcwd(), out_tag, clf_class))
             plt.close()
+            
+    #def plot_importance():
+    #    fig = plt.figure(1)
+    #    axes = fig.gca()
 
