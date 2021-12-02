@@ -1,0 +1,65 @@
+# custom tag that will be added to all saved df's and models. 
+# useful if you are training say ggH classifier and want to save dataframe with ggH preselection. 
+# otherwise may get confused when training another clf like VBF 
+output_tag:
+    'ggH_BDT'
+
+#.root MC files for all years (sig and bkg) should be kept in this dir:
+mc_file_dir:
+    '/vols/cms/xw10718/october21/2017/MC/'
+
+#.root Data files for all years should be kept in this dir:
+data_file_dir:
+    '/vols/cms/xw10718/october21/2017/Data/'
+
+mc_file_names:
+    sig:
+        ggH:
+         #   '2016': 'ggH_M125.root' 
+            '2017': 'ggH_M125.root'
+         #   '2018': 'ggH_M125.root' 
+    bkg:
+        VBF:
+            #'2016': 'VBF_UL2017.root' #re-use 17 as 16 for now
+            '2017': 'VBF_M125.root'
+            #'2018': 'VBF_UL2017.root' #re-use 17 as 18 for now
+
+data_file_names:
+    Data:
+        #'2016': 'Data.root'
+        '2017': 'Data.root'
+        #'2018': 'Data.root'
+
+#.root MC files for all years (bkg) should have these tree path:
+proc_to_tree_name:
+    ggH: 'Events'
+    #ttH: 'Events'
+    #VH: 'Events'
+    VBF: 'Events'
+    Data: 'Events'
+
+#X variables to train with. Must be in nominal_vars (unless created from existing features)
+train_vars:
+#matching ggh_dnn vars
+    #['dijetAbsDEta', 'dijetCentrality', 'dijetMass', 'dijetMinDRJetPho', 'diphotonPt', 'leadJetDiphoDEta', 'leadJetEta',
+    #'leadPhotonPtOvM', 'subleadPhotonPtOvM', 'subleadJetEta']
+    ['diphotonPt','diphotonCosPhi' , 
+     'leadPhotonPtOvM', 'subleadPhotonPtOvM',
+     'leadPhotonEta', 'subleadPhotonEta',
+     'dijetAbsDEta', 'dijetDPhi','dijetMinDRJetPho', 'dijetMass', 
+     'dijetDiphoAbsDPhiTrunc', 'dijetDiphoAbsDEta', 'dijetCentrality',
+     'leadJetDiphoDPhi', 'subleadJetDiphoDPhi', 'leadJetDiphoDEta', 'subleadJetDiphoDEta',
+     'leadJetEn', 'leadJetPt','leadJetEta', 'leadJetPhi','leadJetQGL', 
+     'subleadJetEn', 'subleadJetPt', 'subleadJetEta', 'subleadJetPhi','subleadJetQGL',
+     'leadPhotonIDMVA', 'subleadPhotonIDMVA',
+    ]
+
+vars_to_add:
+
+
+#preselection that will be applied to all samples
+preselection:
+    'diphotonMass > 100 and diphotonMass < 180 and leadPhotonPtOvM > 0.47 and subleadPhotonPtOvM > 0.28 and leadPhotonElectronVeto==1 and subleadPhotonElectronVeto==1'
+
+#need looser cut for re-weighting around Z mass. Actual CR selection is defined is DataHandling.py
+reweight_cr:

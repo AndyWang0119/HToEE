@@ -102,7 +102,7 @@ def main(options):
             bdt_hee.compute_roc()
             bdt_hee.plot_roc(output_tag)
             #bdt_hee.plot_output_score(output_tag, ratio_plot=True, norm_to_data=(not options.pt_reweight), log=False)
-            bdt_hee.plot_output_score(output_tag, ratio_plot=True, norm_to_data=(not options.pt_reweight), log=True)
+            bdt_hee.plot_output_score(output_tag, ratio_plot=False, norm_to_data=False, log=True, sb_eq_weight=options.sb_eq_weight)
 
 if __name__ == "__main__":
 
@@ -118,5 +118,6 @@ if __name__ == "__main__":
     opt_args.add_argument('-b','--train_best', action='store_true', default=False)
     opt_args.add_argument('-t','--train_frac', action='store', default=0.7, type=float)
     opt_args.add_argument('-P','--pt_reweight', action='store_true',default=False)
+    opt_args.add_argument('-sb','--sb_eq_weight', action='store_true', default=False) #Andy
     options=parser.parse_args()
     main(options)

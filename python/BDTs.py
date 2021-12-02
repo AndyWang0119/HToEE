@@ -3,6 +3,7 @@ from os import path, system
 
 import numpy as np
 import pandas as pd
+from pandas.core.frame import DataFrame
 import xgboost as xgb
 import matplotlib
 matplotlib.use('Agg')
@@ -487,13 +488,30 @@ class BDTHelpers(object):
 
         roc_fig = self.plotter.plot_roc(self.y_train, self.y_pred_train, self.train_weights, 
                                    self.y_test, self.y_pred_test, self.test_weights, out_tag=out_tag)
+        
+        output_df1 = pd.DataFrame(self.y_train, columns=['y'])
+        output_df1['y_pred'] = self.y_pred_train
+        output_df1['weights'] = self.train_weights
+        #output_df1['X'] = self.X_train
+        output_df1['type'] = np.full(len(output_df1), 'train')
+
+        output_df2 = pd.DataFrame(self.y_test, columns=['y'])
+        output_df2['y_pred'] = self.y_pred_test
+        output_df2['weights'] = self.test_weights
+        #output_df2['X'] = self.X_test
+        output_df2['type'] = np.full(len(output_df2), 'test')
+
+        df = pd.concat([output_df1,output_df2], sort=False, axis=0 )
+        df.to_csv('plotting/plots/ggH_BDT/data.csv', index=False)
+        #output_df1.to_csv('plotting/plots/ggH_BDT/y_train_data.csv', index=False)
+        #output_df2.to_csv('plotting/plots/ggH_BDT/y_test_data.csv', index=False)
 
         Utils.check_dir('{}/plotting/plots/{}'.format(os.getcwd(), out_tag))
         roc_fig.savefig('{0}/plotting/plots/{1}/{1}_ROC_curve.pdf'.format(os.getcwd(),out_tag))
         print('saving: {0}/plotting/plots/{1}/{1}_ROC_curve.pdf'.format(os.getcwd(),out_tag))
         plt.close()
 
-    def plot_output_score(self, out_tag, ratio_plot=False, norm_to_data=False, log=False):
+    def plot_output_score(self, out_tag, ratio_plot=False, norm_to_data=False, log=False, sb_eq_weight=False):
         """
         Plot the output score for the classifier, for signal, background, and data
 
@@ -505,11 +523,14 @@ class BDTHelpers(object):
             whether to plot the ratio between simulated background and data
         norm_to_data: bool
             whether to normalise the integral of the simulated background, to the integral in data
+        sb_eq_weight: bool
+            whether to plot the signal and background normalised
         """
 
         output_score_fig = self.plotter.plot_output_score(self.y_test, self.y_pred_test, self.test_weights, 
                                                           self.proc_arr_test, self.clf.predict_proba(self.X_data_test.values)[:,1:],
-                                                          ratio_plot=ratio_plot, norm_to_data=norm_to_data, log=log)
+                                                          ratio_plot=ratio_plot, norm_to_data=norm_to_data, log=log,
+                                                          sb_eq_weight=sb_eq_weight)
 
         Utils.check_dir('{}/plotting/plots/{}'.format(os.getcwd(),out_tag))
         output_score_fig.savefig('{0}/plotting/plots/{1}/{1}_output_score.pdf'.format(os.getcwd(), out_tag))

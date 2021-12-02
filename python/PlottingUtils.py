@@ -36,7 +36,7 @@ class Plotter(object):
         self.normalise    = normalise
 
         #self.sig_scaler   = 5*10**7
-        self.sig_scaler   = 100
+        self.sig_scaler   = 1
 
         #get xrange from yaml config
         with open('plotting/var_to_xrange.yaml', 'r') as plot_config_file:
@@ -222,7 +222,7 @@ class Plotter(object):
         #np.savez('{}/models/{}_ROC_sig_bkg_arrays_NOJETVARS.npz'.format(os.getcwd(), out_tag), sig_eff_test=sig_eff_test, bkg_eff_test=bkg_eff_test)
         return fig
 
-    def plot_output_score(self, y_test, y_pred_test, test_weights, proc_arr_test, data_pred_test, MVA='BDT', ratio_plot=False, norm_to_data=False, log=False):
+    def plot_output_score(self, y_test, y_pred_test, test_weights, proc_arr_test, data_pred_test, MVA='BDT', ratio_plot=False, norm_to_data=False, log=False, sb_eq_weight=False):
         if ratio_plot: 
             plt.rcParams.update({'figure.figsize':(6,5.8)})
             fig, axes = plt.subplots(nrows=2, ncols=1, dpi=200, sharex=True,
@@ -256,11 +256,13 @@ class Plotter(object):
             bkg_w_stack.append(bkg_weights)
             bkg_proc_stack.append(bkg)
 
+        #SB normalization
+        sb_factor = 1
+        if sb_eq_weight:
+            sb_factor = np.sum(sig_w_true*(self.sig_scaler)) / np.sum(np.concatenate(bkg_w_stack))
+        
         #sig
-        axes.hist(sig_scores, bins=bins, label=self.sig_labels[0]+r' ($\mathrm{H}\rightarrow\mathrm{ee}$) '+self.num_to_str(self.sig_scaler), weights=sig_w_true*(self.sig_scaler), histtype='step', color=self.sig_colour)
-        import pandas as pd
-        pd.DataFrame(y_pred_test).to_csv('plotting/plots/ggH_BDT/sig_scores.csv', index=False)
-        pd.DataFrame(y_test).to_csv('plotting/plots/ggH_BDT/y_test.csv', index=False)
+        axes.hist(sig_scores, bins=bins, label=self.sig_labels[0]+r' ($\mathrm{H}\rightarrow \gamma\gamma$) '+self.num_to_str(self.sig_scaler), weights=sig_w_true*(self.sig_scaler), histtype='step', color=self.sig_colour)
 
         #data - need to take test frac of data
         data_binned, bin_edges = np.histogram(data_pred_test, bins=bins)
@@ -268,7 +270,7 @@ class Plotter(object):
         x_err    = (bin_edges[-1] - bin_edges[-2])/2
         data_down, data_up = self.poisson_interval(data_binned, data_binned)
         #FIXME: dont' plot the data for now
-        axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=4, color='black', capsize=0, zorder=1)
+        #axes.errorbar( bin_centres, data_binned, yerr=[data_binned-data_down, data_up-data_binned], label='Data', fmt='o', ms=4, color='black', capsize=0, zorder=1)
 
         if norm_to_data: 
             rew_stack = []
@@ -279,12 +281,14 @@ class Plotter(object):
             bkg_stack_summed, _ = np.histogram(np.concatenate(bkg_stack), bins=bins, weights=np.concatenate(rew_stack))
             sumw2_bkg, _  = np.histogram(np.concatenate(bkg_stack), bins=bins, weights=np.concatenate(rew_stack)**2)
         else: 
+            bkg_w_stack = [element * sb_factor for element in bkg_w_stack] #normalization
             axes.hist(bkg_stack, bins=bins, label=bkg_proc_stack, weights=bkg_w_stack, histtype='stepfilled', color=self.bkg_colours[0:len(bkg_proc_stack)], stacked=True, zorder=0)
             bkg_stack_summed, _ = np.histogram(np.concatenate(bkg_stack), bins=bins, weights=np.concatenate(bkg_w_stack))
             sumw2_bkg, _  = np.histogram(np.concatenate(bkg_stack), bins=bins, weights=np.concatenate(bkg_w_stack)**2)
         #plot mc error 
         bkg_std_down, bkg_std_up  = self.poisson_interval(bkg_stack_summed, sumw2_bkg)                                                   
-        axes.fill_between(bins, list(bkg_std_down)+[bkg_std_down[-1]], list(bkg_std_up)+[bkg_std_up[-1]], alpha=0.3, step="post", color="grey", lw=1, zorder=4, label='Simulation stat. unc.')
+        #FIXME: Disabled the grey box
+        #axes.fill_between(bins, list(bkg_std_down)+[bkg_std_down[-1]], list(bkg_std_up)+[bkg_std_up[-1]], alpha=0.3, step="post", color="grey", lw=1, zorder=4, label='Simulation stat. unc.')
 
         #axes.legend(bbox_to_anchor=(0.97,0.97), ncol=2)
         axes.legend(bbox_to_anchor=(0.9,0.97), ncol=2, prop={'size':10})
@@ -307,6 +311,7 @@ class Plotter(object):
         if log: 
             axes.set_yscale('log', nonposy='clip')
             axes.set_ylim(bottom=1, top=current_top*100)
+            #axes.set_ylim(bottom=1, top=current_top*5)
         else: 
             axes.set_ylim(bottom=0, top=current_top*1.45)
 
@@ -318,9 +323,10 @@ class Plotter(object):
         #axes.axvspan(0, 0.213, ymax=0.7, color='grey', alpha=0.35)
 
         #VBF BDT
-        axes.axvline(0.890, ymax=0.7, color='black', linestyle='--')
-        axes.axvline(0.741, ymax=0.7, color='black', linestyle='--')
-	axes.axvspan(0, 0.741, ymax=0.7, color='grey', alpha=0.35)
+        #FIXME: All folloinwg 3 line disabled
+        #axes.axvline(0.890, ymax=0.7, color='black', linestyle='--')
+        #axes.axvline(0.741, ymax=0.7, color='black', linestyle='--')
+	#axes.axvspan(0, 0.741, ymax=0.7, color='grey', alpha=0.35)
 
 	#VBF DNN
 	#axes.axvline(0.907, ymax=0.71, color='black', linestyle='--')
